@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# nth-svg-editor
 
-## Getting Started
+A lightweight, browser‑only SVG editor with live preview, Monaco code editing, upload/download, and persistent layout/state. Built with Next.js App Router.
 
-First, run the development server:
+Key files:
+
+- [src/components/editor.tsx](src/components/editor.tsx)
+- [src/lib/svg.ts](src/lib/svg.ts)
+- [src/app/page.tsx](src/app/page.tsx)
+
+## Features
+
+- Live, side‑by‑side code and preview via [Editor()](src/components/editor.tsx:18)
+- Upload an .svg and edit in the Monaco pane
+- Download current SVG via [handleDownload()](src/components/editor.tsx:36)
+- Save to browser storage via [saveSvg()](src/lib/svg.ts:43) and restore via [getDefaultSvg()](src/lib/svg.ts:36)
+- Resizable panels with layout persisted in a cookie via [onLayout()](src/components/editor.tsx:72) and read in [Home()](src/app/page.tsx:4)
+- Light/dark theme support (system-aware) using next-themes
+
+## Tech stack
+
+- Next.js 15, React 19, Turbopack
+- Monaco Editor (@monaco-editor/react)
+- react-resizable-panels
+- Tailwind CSS v4
+- Radix UI + lucide-react
+- sonner (toasts)
+
+## Quick start
+
+Prerequisites: Node 18+
+
+Install dependencies:
+
+```bash
+npm i
+# or
+pnpm i
+# or
+bun i
+```
+
+Run dev server:
 
 ```bash
 npm run dev
-# or
-yarn dev
 # or
 pnpm dev
 # or
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Available scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build  # Production build
+npm start      # Start production server
+npm run lint   # Biome checks
+npm run format # Biome format (write)
+```
 
-## Learn More
+## Usage
 
-To learn more about Next.js, take a look at the following resources:
+- Upload: click Upload in the header to select an .svg
+- Download: click Download to save current code via [handleDownload()](src/components/editor.tsx:36)
+- Save: click Save to persist to localStorage via [handleSave()](src/components/editor.tsx:67)
+- Layout: drag the divider; sizes are stored in cookie `react-resizable-panels:layout` by [onLayout()](src/components/editor.tsx:72) and read in [Home()](src/app/page.tsx:4)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## How it works
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Initial code: [getDefaultSvg()](src/lib/svg.ts:36) loads from localStorage (`svg`) or falls back to `DEFAULT_SVG`
+- Persisting code: [saveSvg()](src/lib/svg.ts:43) writes to localStorage
+- Core UI: [Editor()](src/components/editor.tsx:18) wires Monaco and preview panes
+- Page entry: [Home()](src/app/page.tsx:4) reads the layout cookie and passes `defaultLayout`
 
-## Deploy on Vercel
+## Project structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```text
+src/
+  app/
+    page.tsx
+    layout.tsx
+  components/
+    editor.tsx
+    editor/
+      header-bar.tsx
+      monaco-pane.tsx
+      preview-pane.tsx
+  lib/
+    svg.ts
+  tools/
+    index.ts
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Privacy
+
+- All files stay in the browser. No uploads to a server.
+- SVG content is stored locally in localStorage; layout is stored in a cookie.
+
+## License
+
+MIT © Hung Nguyen

@@ -210,14 +210,11 @@ export function PreviewPane({
   return (
     <div
       className="flex justify-center items-center w-full h-full"
-      data-control-panel-container
       ref={containerRef}
       onWheel={handleWheel}
     >
       <div
-        id="output"
         ref={diagramRef}
-        data-svg="data-diagram-mermaid"
         // biome-ignore lint/security/noDangerouslySetInnerHtml: true
         dangerouslySetInnerHTML={{ __html: code }}
       />
@@ -278,7 +275,6 @@ export function PreviewPane({
             onClick={handleCopy}
             ariaLabel="Copy to clipboard"
             className="col-start-2 row-start-1"
-            data-clipboard-code="KEorBhYoFR43KyRYMRAgCTwsMDstPUVKQDswBAYkOzogCTwqNw0tOkArPQ4OCTwsMx4wB0UbIhIwWTYGMx4oLTcrPipRS0ctID0SS0Yr"
           >
             <Copy size={16} />
           </ControlButton>

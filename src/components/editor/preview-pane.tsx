@@ -209,7 +209,7 @@ export function PreviewPane({
 
   return (
     <div
-      className="flex justify-center items-center w-full h-full"
+      className="flex justify-center items-center w-full h-full relative"
       ref={containerRef}
       onWheel={handleWheel}
     >

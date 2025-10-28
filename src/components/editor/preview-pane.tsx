@@ -185,11 +185,6 @@ export function PreviewPane({
   };
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) {
-      console.warn("Cannot find control panel container");
-      return;
-    }
     const diagram = diagramRef.current;
     if (!diagram) {
       console.warn("Cannot find diagram within container");

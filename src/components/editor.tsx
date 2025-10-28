@@ -1,15 +1,14 @@
 "use client";
 
 import { Check } from "lucide-react";
-import { type ChangeEvent, useEffect, useRef, useState } from "react";
+import { type ChangeEvent, useRef, useState } from "react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { toast } from "sonner";
 import { useEditorTheme } from "@/hooks/useEditorTheme";
 import { getDefaultSvg, saveSvg } from "@/lib/svg";
-import { markdownItDiagramDom } from "@/tools";
 import { HeaderBar } from "./editor/header-bar";
 import { type MonacoEditorType, MonacoPane } from "./editor/monaco-pane";
-import { PreviewPane } from "./editor/preview-pane";
+import { PreviewPaneContainer } from "./editor/preview-pane";
 
 type Props = {
   defaultLayout?: number[];
@@ -20,10 +19,6 @@ export function Editor({ defaultLayout = [30, 70] }: Props) {
   const [code, setCode] = useState(getDefaultSvg());
   const inputRef = useRef<HTMLInputElement>(null);
   const editorRef = useRef<MonacoEditorType | null>(null);
-
-  useEffect(() => {
-    markdownItDiagramDom();
-  }, []);
 
   function handleEditorDidMount(editor: MonacoEditorType) {
     editorRef.current = editor;
@@ -97,7 +92,7 @@ export function Editor({ defaultLayout = [30, 70] }: Props) {
             defaultSize={defaultLayout[1]}
             className="p-8 flex justify-center items-center h-full"
           >
-            <PreviewPane code={code} />
+            <PreviewPaneContainer code={code} />
           </Panel>
         </PanelGroup>
       </main>
